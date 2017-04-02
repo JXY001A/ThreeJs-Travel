@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript" src="js/three.js"></script>
+		<script type="text/javascript">
+			//定义常量
+			var camera,
+				rendere,
+				mesh,
+				geometry,
+				material,				
+				scene;
+				
+			//初始化常量
+			function init(){
+				scene = new THREE.Scene();
+				camera= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+				geometry = new THREE.CubeGeometry(1,1,1);
+				material=new THREE.MeshBasicMaterial({color:0xff0000,wireframe:true});
+				mesh= new THREE.Mesh(geometry,material);
+				renderer=new ThREE.WebGLRenderer();
+				//将渲染器区域设置为整个屏幕区域
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				//使用Three.js 生成canvas对象，同时放置到html页面中
+				document.body.appendChild(renderer.domElement);
+			}
+		</script>
+	</body>
+</html>
