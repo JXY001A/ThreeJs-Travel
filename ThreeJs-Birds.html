@@ -5,15 +5,85 @@
 	<title>Document</title>
 	<style type="text/css">
 		*{
-			padding: 0;
-			margin: 0;
-		}
+				padding: 0;
+				margin: 0;
+			}
+		body {
+				color: #808080;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+
+				background-color: #ffffff;
+				margin: 0px;
+				overflow: hidden;
+			}
+
 	</style>
 </head>
 <body>
 	<script type="text/javascript" src="js/three.js"></script>
 	<script type="text/javascript">
-		alert(THREE);
+		/*自定义几何体*/
+		//定义常量
+			var camera,
+				rendere,
+				mesh,
+				geometry,
+				material,				
+				scene;
+			init();
+			animate();
+			//初始化常量
+			function init(){
+				scene = new THREE.Scene();
+				//PerspectiveCamera(视角，纵横比，最近距离，最远距离)
+				camera= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+				//设置相机的位置
+				camera.position.set(0,0,16);
+				//向原点位置看
+				camera.lookAt(new THREE.Vector3(0, 0, 0));
+				// 自定义形状使用的是Geometry类，它是其他如CubeGeometry、SphereGeometry等几何形状的父类
+				geometry =  new THREE.Geometry();
+				function v(a,b,c){
+					geometry.vertices.push(new  THREE.Vector3(a,b,c));
+				}
+				function face3(a,b,c){
+					geometry.faces.push(new THREE.Face3(a,b,c));
+				}
+				v(   5,   0,   0 );
+				v( - 5, - 2,   1 );
+				v( - 5,   0,   0 );
+				v( - 5, - 2, - 1 );
+
+				v(   0,   2, - 6 );
+				v(   0,   2,   6 );
+				v(   2,   0,   0 );
+				v( - 3,   0,   0 );			
+
+				face3( 0, 2, 1 );
+				// f3( 0, 3, 2 );
+
+				face3( 4, 7, 6 );
+				face3( 5, 6, 7 );
+				// geometry.computeFaceNormals();
+				material=new THREE.MeshBasicMaterial({color:0x000000,wireframe:false,side: THREE.DoubleSide});
+				mesh= new THREE.Mesh(geometry,material);
+				renderer=new THREE.WebGLRenderer();
+				//将渲染器区域设置为整个屏幕区域
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				renderer.setClearColor(0xFFFFFF, 1.0);
+				//使用Three.js 生成canvas对象，同时放置到html页面中
+				document.body.appendChild(renderer.domElement);
+				scene.add(mesh); 
+			}
+			
+			function animate(){
+				// mesh.rotation.x += 0.01;
+				mesh.rotation.y += 0.01;
+				renderer.render(scene,camera);
+				requestAnimationFrame(animate);
+			}
 	</script>
 </body>
 </html>
